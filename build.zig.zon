@@ -1,0 +1,14 @@
+.{
+    .name = .argonaut,
+    .version = "0.0.0",
+    .fingerprint = 0x9bcb7881a4820906,
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{},
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}

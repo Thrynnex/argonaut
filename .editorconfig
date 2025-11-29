@@ -1,0 +1,16 @@
+# EditorConfig helps maintain consistent coding styles for multiple developers on the same project.
+# https://editorconfig.org
+
+# The root directory is the top-most directory in the project's hierarchy.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Zig files
+[*.zig]
+indent_style = space
+indent_size = 4
