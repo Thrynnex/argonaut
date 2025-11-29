@@ -1,6 +1,6 @@
 .{
     .name = .argonaut,
-    .version = "0.0.0",
+    .version = "0.0.1",
     .fingerprint = 0x9bcb7881a4820906,
     .minimum_zig_version = "0.15.2",
     .dependencies = .{},
