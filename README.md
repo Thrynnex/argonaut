@@ -48,13 +48,13 @@ A flexible and powerful command-line argument parser for Zig, inspired by the [G
 Add the dependency in your build.zig.zon by running the following command:
 
 ```bash
-zig fetch --save=argparse git+https://github.com/OhMyDitzzy/argonaut
+zig fetch --save=argonaut git+https://github.com/OhMyDitzzy/argonaut
 ```
 
 Then in your `build.zig`:
 
 ```zig
-exe.root_module.addImport("argparse", b.dependency("argparse", .{ .target = target, .optimize = optimize }).module("argparse"));
+exe.root_module.addImport("argonaut", b.dependency("argonaut", .{ .target = target, .optimize = optimize }).module("argonaut"));
 ```
 
 ## Quick Start
