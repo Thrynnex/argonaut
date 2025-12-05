@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>argonaut — Zig CLI Parser</title>
+  <meta name="description" content="Flexible and Powerful Command-Line Argument Parser for Zig." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- MOBILE OVERLAY MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" class="mobile-link" onclick="app.closeMenu(); app.navigate('#home')">Home</a>
+    <a href="#docs/intro" class="mobile-link" onclick="app.closeMenu(); app.navigate('#docs/intro')">Documentation</a>
+    <a href="https://github.com/OhMyDitzzy/argonaut" class="mobile-link" target="_blank">GitHub Repo</a>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="logo" onclick="app.navigate('#home')">
+        <div class="logo-icon">A</div>
+        <span>argonaut</span>
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="desktop-menu">
+        <a href="#home" class="nav-item" data-route="#home" onclick="app.navigate('#home')">Home</a>
+        <a href="#docs/intro" class="nav-item" data-route="#docs/intro" onclick="app.navigate('#docs/intro')">Documentation</a>
+        <a href="https://github.com/OhMyDitzzy/argonaut" class="nav-item" target="_blank">GitHub</a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button class="hamburger" id="hamburgerBtn" onclick="app.toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+
+    <!-- === PAGE: HOME === -->
+    <div id="home" class="page">
+      <section class="hero">
+        <div class="hero-badges">
+          <span class="badge">v0.1.0</span>
+          <span class="badge">MIT License</span>
+        </div>
+        <h1>Command Line Arguments.<br><span class="highlight-text">Simplified.</span></h1>
+        <p class="hero-lead">
+          Argonaut is a flexible, powerful, and type-safe command-line argument parser for Zig. Built for developers who want robust CLI tools with zero hassle.
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#docs/quickstart" class="btn btn-yellow" onclick="app.navigate('#docs/quickstart')">Quick Start ⚡</a>
+          <a href="https://github.com/OhMyDitzzy/argonaut" target="_blank" class="btn btn-teal">GitHub 📦</a>
+        </div>
+      </section>
+
+      <div class="card mint">
+        <h2 class="card-title">Why Argonaut?</h2>
+        <div class="features-grid">
+          
+          <!-- Feature 1 -->
+          <div class="feature">
+            <div class="feature-icon">🚀</div>
+            <h3>Zero Allocations</h3>
+            <p>Designed to be memory efficient. Use the provided allocator only when necessary.</p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature">
+            <div class="feature-icon">🌲</div>
+            <h3>Subcommands</h3>
+            <p>Create complex toolchains like <code>git remote add</code> with nested command definitions.</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature">
+            <div class="feature-icon">✨</div>
+            <h3>Auto Help</h3>
+            <p>Don't waste time writing help strings. Argonaut generates formatted usage info automatically.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- === PAGE: DOCS === -->
+    <div id="docs" class="page hidden">
+      <div class="docs-grid">
+        
+        <!-- Docs Sidebar -->
+        <aside class="sidebar">
+          <div class="sb-group">
+            <div class="sb-title">Getting Started</div>
+            <a href="#docs/intro" class="sb-link" data-route="#docs/intro" onclick="app.navigate('#docs/intro')">Introduction</a>
+            <a href="#docs/install" class="sb-link" data-route="#docs/install" onclick="app.navigate('#docs/install')">Installation</a>
+            <a href="#docs/quickstart" class="sb-link" data-route="#docs/quickstart" onclick="app.navigate('#docs/quickstart')">Quick Start</a>
+          </div>
+          <div class="sb-group">
+            <div class="sb-title">API Reference</div>
+            <a href="#docs/api" class="sb-link" data-route="#docs/api" onclick="app.navigate('#docs/api')">Core Methods</a>
+            <a href="#docs/subcommands" class="sb-link" data-route="#docs/subcommands" onclick="app.navigate('#docs/subcommands')">Subcommands</a>
+          </div>
+        </aside>
+
+        <!-- Docs Content -->
+        <div class="card docs-card">
+          <article id="doc-content">
+            <!-- Content Injected via JS -->
+          </article>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">argonaut</div>
+      <p class="footer-text">&copy; <span id="yr"></span> OhMyDitzzy. Licensed under MIT.</p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="js/script.js"></script>
+</body>
+</html>
