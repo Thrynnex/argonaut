@@ -4,7 +4,7 @@
   --text: #1a1a1a;
   --text-muted: #666;
   
-  /* Saweria/Neo-Brutalism Brand Colors */
+  /* Saweria Brand Colors */
   --yellow: #f8be2e;
   --teal: #82e4fa;
   --mint: #e0f7fa;
@@ -37,7 +37,7 @@ body {
 h1, h2, h3 { font-family: var(--font-head); font-weight: 800; margin: 0 0 16px 0; color: #000; }
 h1 { font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.03em; line-height: 1.1; }
 h2 { font-size: 28px; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px; margin-top: 32px; }
-h3 { font-size: 20px; }
+h3 { font-size: 20px; margin-top: 20px; }
 p { margin-bottom: 20px; font-size: 16px; color: #444; }
 a { text-decoration: none; color: inherit; transition: 0.2s ease; }
 .hidden { display: none !important; }
@@ -168,7 +168,7 @@ a { text-decoration: none; color: inherit; transition: 0.2s ease; }
 }
 .highlight-text { color: var(--teal); -webkit-text-stroke: 1px black; }
 .hero-lead { max-width: 600px; margin: 0 auto 32px; }
-.hero-actions { display: flex; gap: 16px; justify-content: center; }
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
 /* Features Grid */
 .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
@@ -208,15 +208,35 @@ a { text-decoration: none; color: inherit; transition: 0.2s ease; }
   font-weight: 800;
 }
 
-/* --- CODE BLOCKS --- */
+/* --- MARKDOWN CONTENT STYLING --- */
+
+/* Fix: Code blocks fitting in box */
 pre {
-  background: #111; color: #fff;
-  padding: 24px; border-radius: 12px;
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
   border: 2px solid #000;
-  font-family: var(--font-mono); font-size: 14px;
-  overflow-x: auto; margin: 24px 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  margin: 24px 0;
   box-shadow: 4px 4px 0 #ddd;
+  
+  /* Critical for box fitting */
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; 
+  white-space: pre; 
 }
+
+#doc-content {
+  width: 100%;
+  overflow-wrap: break-word;
+}
+#doc-content h1, #doc-content h2 { margin-top: 0; }
+#doc-content img { max-width: 100%; height: auto; border: 2px solid #000; border-radius: 8px; }
+#doc-content ul { padding-left: 20px; }
+
 code { font-family: var(--font-mono); }
 p code, li code {
   background: #eee; padding: 2px 6px; border-radius: 4px;
