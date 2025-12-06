@@ -1,73 +1,3 @@
-// Documentation Content Dictionary
-const docsContent = {
-  'intro': `
-    <h2>Introduction</h2>
-    <p>Argonaut is a library for parsing command-line arguments in Zig. It aims to provide a pleasant Developer Experience (DX) without sacrificing performance.</p>
-    <p>It supports flags, positional arguments, subcommands, and generates help messages automatically.</p>
-  `,
-  'install': `
-    <h2>Installation</h2>
-    <p>Argonaut is available via the Zig Build System.</p>
-    <h3>1. Fetch the dependency</h3>
-    <pre><code>zig fetch --save=argonaut git+https://github.com/OhMyDitzzy/argonaut</code></pre>
-    <h3>2. Add to build.zig</h3>
-    <pre><code>const argonaut = b.dependency("argonaut", .{
-    .target = target,
-    .optimize = optimize,
-});
-exe.root_module.addImport("argonaut", argonaut.module("argonaut"));</code></pre>
-  `,
-  'quickstart': `
-    <h2>Quick Start</h2>
-    <p>Create a <code>main.zig</code> file:</p>
-    <pre><code>const std = @import("std");
-const argsparse = @import("argonaut");
-
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-
-    // 1. Init Parser
-    var parser = try argsparse.newParser(allocator, "demo", "A demo app");
-    defer parser.deinit();
-
-    // 2. Define Args
-    const name = try parser.string("n", "name", "Your Name");
-    const count = try parser.int("c", "count", "Repetitions");
-
-    // 3. Parse
-    const args = try std.process.argsAlloc(allocator);
-    try parser.parse(args);
-
-    // 4. Use logic
-    std.debug.print("Hello {s}\\n", .{name.*});
-}</code></pre>
-  `,
-  'api': `
-    <h2>Core Methods</h2>
-    <p>These methods define arguments on the parser instance.</p>
-    <ul>
-        <li><code>flag(short, long, help)</code>: Returns <code>*bool</code></li>
-        <li><code>string(short, long, help)</code>: Returns <code>*[]const u8</code></li>
-        <li><code>int(short, long, help)</code>: Returns <code>*i64</code></li>
-        <li><code>float(short, long, help)</code>: Returns <code>*f64</code></li>
-    </ul>
-  `,
-  'subcommands': `
-    <h2>Subcommands</h2>
-    <p>Argonaut handles nested commands gracefully.</p>
-    <pre><code>var cmd = try parser.command("server", "Start the server");
-const port = try cmd.int("p", "port", "Port to listen on");
-
-try parser.parse(args);
-
-if (cmd.happened()) {
-    // Start server logic...
-}</code></pre>
-  `
-};
-
-// Application Logic
 const app = {
   elements: {
     home: document.getElementById('home'),
@@ -77,6 +7,9 @@ const app = {
     docBody: document.getElementById('doc-content'),
     year: document.getElementById('yr')
   },
+
+  // CACHE SYSTEM: Prevents loading same file twice
+  cache: {},
 
   toggleMenu: function() {
     const isOpen = this.elements.menu.classList.toggle('is-open');
@@ -90,6 +23,52 @@ const app = {
     document.body.style.overflow = '';
   },
 
+  // Load Markdown from 'details/' folder with Caching
+  loadMarkdown: async function(slug) {
+    // 1. Check Cache (Instant Load)
+    if (this.cache[slug]) {
+      this.elements.docBody.innerHTML = this.cache[slug];
+      return;
+    }
+
+    // 2. Show Loading State
+    this.elements.docBody.innerHTML = '<div style="padding:20px; color:#888; font-weight:600;">Loading...</div>';
+    
+    try {
+      // 3. Fetch file
+      const response = await fetch(`details/${slug}.md`);
+      
+      if (!response.ok) throw new Error('File not found');
+
+      const markdown = await response.text();
+      let htmlContent = '';
+
+      // 4. Parse (Marked.js)
+      if (typeof marked !== 'undefined') {
+        htmlContent = marked.parse(markdown);
+      } else {
+        htmlContent = `<pre>${markdown}</pre>`;
+        console.warn("Marked.js library is missing.");
+      }
+
+      // 5. Save to Cache
+      this.cache[slug] = htmlContent;
+
+      // 6. Render
+      this.elements.docBody.innerHTML = htmlContent;
+
+    } catch (error) {
+      this.elements.docBody.innerHTML = `
+        <h2>Error 404</h2>
+        <p>Could not load: <code>details/${slug}.md</code></p>
+        <p style="font-size:14px; color:#c026d3;">
+          <strong>Tip:</strong> If you are opening this file locally, 
+          you must use a local server (localhost), not just double-click index.html.
+        </p>
+      `;
+    }
+  },
+
   render: function(hash) {
     const key = hash.replace(/^#/, '') || 'home';
     const isDocs = key.startsWith('docs');
@@ -98,13 +77,13 @@ const app = {
     this.elements.home.classList.toggle('hidden', isDocs);
     this.elements.docs.classList.toggle('hidden', !isDocs);
 
-    // Inject Content
+    // Load Content
     if(isDocs) {
       const slug = key.split('/')[1] || 'intro';
-      this.elements.docBody.innerHTML = docsContent[slug] || '<h2>404 Not Found</h2>';
+      this.loadMarkdown(slug);
     }
 
-    // Update Active Links
+    // Update Active States
     document.querySelectorAll('[data-route]').forEach(el => {
       const route = el.dataset.route;
       const isActive = (key === 'home' && route === '#home') || 
@@ -121,11 +100,10 @@ const app = {
   },
 
   init: function() {
-    this.elements.year.innerText = new Date().getFullYear();
+    if(this.elements.year) this.elements.year.innerText = new Date().getFullYear();
     window.addEventListener('popstate', () => this.render(location.hash));
     this.render(location.hash);
   }
 };
 
-// Start the app
 app.init();
